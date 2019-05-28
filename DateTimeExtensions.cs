@@ -73,7 +73,7 @@ namespace Extensions
         public static string ToDateString
             (this DateTime? value, string format = @"yyyy-MM-dd")
         {
-            return value?.ToString(format) ?? null;
+            return value?.ToString(format);
         }
 
         public static string ToDateString
