@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Extensions
@@ -30,17 +32,30 @@ namespace Extensions
                 if (typeof(T) != typeof(string)
                     || !string.IsNullOrWhiteSpace(input as string))
                 {
-                    System.Convert.ChangeType(input, type);
+                    result = System.Convert.ChangeType(input, type);
                 }
             }
 
             return (U)result;
         }
 
-        public static decimal ToDecimal
-            (this string input,
-            NumberStyles style = NumberStyles.Number,
-            IFormatProvider provider = null)
+        public static IEnumerable<T> Split<T>(this string value, char delimiter, bool excludeEmpties = false)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                var splitted = value
+                    .Split(delimiter)
+                    .Where(v => !(excludeEmpties && !string.IsNullOrWhiteSpace(v))).ToArray();
+
+                foreach (var s in splitted)
+                {
+                    yield return s.Trim().Convert<string, T>();
+                }
+            }
+        }
+
+        public static decimal ToDecimal(
+            this string input, NumberStyles style = NumberStyles.Number, IFormatProvider provider = null)
         {
             var result = input.ToNullableDecimal(
                 style: style,
@@ -49,10 +64,8 @@ namespace Extensions
             return result;
         }
 
-        public static double ToDouble
-            (this string input,
-            NumberStyles style = NumberStyles.Number,
-            IFormatProvider provider = null)
+        public static double ToDouble(
+            this string input, NumberStyles style = NumberStyles.Number, IFormatProvider provider = null)
         {
             var result = input.ToNullableDouble(
                 style: style,
@@ -77,10 +90,8 @@ namespace Extensions
             return result;
         }
 
-        public static int ToInt
-            (this string input,
-            NumberStyles style = NumberStyles.Integer,
-            IFormatProvider provider = null)
+        public static int ToInt(
+            this string input, NumberStyles style = NumberStyles.Integer, IFormatProvider provider = null)
         {
             var result = input.ToNullableInt(
                 style: style,
@@ -89,8 +100,7 @@ namespace Extensions
             return result;
         }
 
-        public static long? ToLong
-            (this string value)
+        public static long? ToLong(this string value)
         {
             var result = default(long?);
 
@@ -110,16 +120,13 @@ namespace Extensions
             return result;
         }
 
-        public static long ToLong
-            (this string value, long backup)
+        public static long ToLong(this string value, long backup)
         {
             return value.ToLong() ?? backup;
         }
 
-        public static decimal? ToNullableDecimal
-            (this string input,
-            NumberStyles style = NumberStyles.Number,
-            IFormatProvider provider = null)
+        public static decimal? ToNullableDecimal(
+            this string input, NumberStyles style = NumberStyles.Number, IFormatProvider provider = null)
         {
             var result = default(decimal?);
 
@@ -137,10 +144,8 @@ namespace Extensions
             return result;
         }
 
-        public static double? ToNullableDouble
-            (this string input,
-            NumberStyles style = NumberStyles.Number,
-            IFormatProvider provider = null)
+        public static double? ToNullableDouble(
+            this string input, NumberStyles style = NumberStyles.Number, IFormatProvider provider = null)
         {
             var result = default(double?);
 
@@ -158,10 +163,8 @@ namespace Extensions
             return result;
         }
 
-        public static int? ToNullableInt
-            (this string input,
-            NumberStyles style = NumberStyles.Integer,
-            IFormatProvider provider = null)
+        public static int? ToNullableInt(
+            this string input, NumberStyles style = NumberStyles.Integer, IFormatProvider provider = null)
         {
             var result = default(int?);
 
