@@ -54,8 +54,8 @@ namespace Extensions
             }
         }
 
-        public static decimal ToDecimal(
-            this string input, NumberStyles style = NumberStyles.Number, IFormatProvider provider = null)
+        public static decimal ToDecimal(this string input, NumberStyles style = NumberStyles.Number,
+            IFormatProvider provider = null)
         {
             var result = input.ToNullableDecimal(
                 style: style,
@@ -64,8 +64,8 @@ namespace Extensions
             return result;
         }
 
-        public static double ToDouble(
-            this string input, NumberStyles style = NumberStyles.Number, IFormatProvider provider = null)
+        public static double ToDouble(this string input, NumberStyles style = NumberStyles.Number,
+            IFormatProvider provider = null)
         {
             var result = input.ToNullableDouble(
                 style: style,
@@ -90,8 +90,8 @@ namespace Extensions
             return result;
         }
 
-        public static int ToInt(
-            this string input, NumberStyles style = NumberStyles.Integer, IFormatProvider provider = null)
+        public static int ToInt(this string input, NumberStyles style = NumberStyles.Integer,
+            IFormatProvider provider = null)
         {
             var result = input.ToNullableInt(
                 style: style,
@@ -125,8 +125,8 @@ namespace Extensions
             return value.ToLong() ?? backup;
         }
 
-        public static decimal? ToNullableDecimal(
-            this string input, NumberStyles style = NumberStyles.Number, IFormatProvider provider = null)
+        public static decimal? ToNullableDecimal(this string input, NumberStyles style = NumberStyles.Number,
+            IFormatProvider provider = null)
         {
             var result = default(decimal?);
 
@@ -144,8 +144,8 @@ namespace Extensions
             return result;
         }
 
-        public static double? ToNullableDouble(
-            this string input, NumberStyles style = NumberStyles.Number, IFormatProvider provider = null)
+        public static double? ToNullableDouble(this string input, NumberStyles style = NumberStyles.Number,
+            IFormatProvider provider = null)
         {
             var result = default(double?);
 
@@ -163,8 +163,8 @@ namespace Extensions
             return result;
         }
 
-        public static int? ToNullableInt(
-            this string input, NumberStyles style = NumberStyles.Integer, IFormatProvider provider = null)
+        public static int? ToNullableInt(this string input, NumberStyles style = NumberStyles.Integer,
+            IFormatProvider provider = null)
         {
             var result = default(int?);
 
