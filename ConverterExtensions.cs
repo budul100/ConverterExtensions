@@ -39,19 +39,30 @@ namespace Extensions
             return (U)result;
         }
 
-        public static IEnumerable<T> Split<T>(this string value, char delimiter, bool excludeEmpties = false)
+        public static IEnumerable<T> Split<T>(this string value, string delimiters, bool excludeEmpties = false)
         {
+            var separators = delimiters.ToCharArray();
+
             if (!string.IsNullOrWhiteSpace(value))
             {
-                var splitted = value
-                    .Split(delimiter)
+                var splits = value
+                    .Split(separators)
                     .Where(v => !(excludeEmpties && !string.IsNullOrWhiteSpace(v))).ToArray();
 
-                foreach (var s in splitted)
+                foreach (var split in splits)
                 {
-                    yield return s.Trim().Convert<string, T>();
+                    yield return split.Trim().Convert<string, T>();
                 }
             }
+        }
+
+        public static IEnumerable<T> Split<T>(this string value, char delimiter, bool excludeEmpties = false)
+        {
+            var result = value.Split<T>(
+                delimiters: delimiter.ToString(),
+                excludeEmpties: excludeEmpties).ToArray();
+
+            return result;
         }
 
         public static decimal ToDecimal(this string input, NumberStyles style = NumberStyles.Number,
@@ -100,29 +111,9 @@ namespace Extensions
             return result;
         }
 
-        public static long? ToLong(this string value)
+        public static long ToLong(this string value, long backup = 0)
         {
-            var result = default(long?);
-
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                var text = Regex.Match(
-                    input: value,
-                    pattern: RegexNumbers,
-                    options: RegexOptions.IgnoreCase).Value;
-
-                if (long.TryParse(text, out long conversion))
-                {
-                    result = conversion;
-                }
-            }
-
-            return result;
-        }
-
-        public static long ToLong(this string value, long backup)
-        {
-            return value.ToLong() ?? backup;
+            return value.ToNullableLong() ?? backup;
         }
 
         public static decimal? ToNullableDecimal(this string input, NumberStyles style = NumberStyles.Number,
@@ -177,6 +168,26 @@ namespace Extensions
                 result: out int num))
             {
                 result = num;
+            }
+
+            return result;
+        }
+
+        public static long? ToNullableLong(this string value)
+        {
+            var result = default(long?);
+
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                var text = Regex.Match(
+                    input: value,
+                    pattern: RegexNumbers,
+                    options: RegexOptions.IgnoreCase).Value;
+
+                if (long.TryParse(text, out long conversion))
+                {
+                    result = conversion;
+                }
             }
 
             return result;
