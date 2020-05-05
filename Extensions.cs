@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ConverterExtensions
 {
-    public static class ConverterExtensions
+    public static class Extensions
     {
         #region Private Fields
 
