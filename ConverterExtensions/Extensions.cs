@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace ConverterExtensions
@@ -21,48 +20,30 @@ namespace ConverterExtensions
         {
             object result = default(U);
 
-            if (typeof(T) == typeof(U))
+            if (!EqualityComparer<T>.Default.Equals(
+                x: input,
+                y: default))
             {
-                result = input;
-            }
-            else
-            {
-                var type = Nullable.GetUnderlyingType(typeof(U)) ?? typeof(U);
-
-                if (typeof(T) != typeof(string)
-                    || !string.IsNullOrWhiteSpace(input as string))
+                if (typeof(U) == typeof(T))
                 {
-                    result = System.Convert.ChangeType(input, type);
+                    result = input;
+                }
+                else
+                {
+                    if (typeof(T) != typeof(string)
+                        || !string.IsNullOrWhiteSpace(input.ToString()))
+                    {
+                        var type = Nullable.GetUnderlyingType(typeof(U)) ?? typeof(U);
+
+                        result = System.Convert.ChangeType(
+                            value: input,
+                            conversionType: type,
+                            provider: CultureInfo.CurrentCulture);
+                    }
                 }
             }
 
             return (U)result;
-        }
-
-        public static IEnumerable<T> Split<T>(this string value, string delimiters, bool excludeEmpties = false)
-        {
-            var separators = delimiters.ToCharArray();
-
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                var splits = value
-                    .Split(separators)
-                    .Where(v => !(excludeEmpties && !string.IsNullOrWhiteSpace(v))).ToArray();
-
-                foreach (var split in splits)
-                {
-                    yield return split.Trim().Convert<string, T>();
-                }
-            }
-        }
-
-        public static IEnumerable<T> Split<T>(this string value, char delimiter, bool excludeEmpties = false)
-        {
-            var result = value.Split<T>(
-                delimiters: delimiter.ToString(),
-                excludeEmpties: excludeEmpties).ToArray();
-
-            return result;
         }
 
         public static decimal ToDecimal(this string input, NumberStyles style = NumberStyles.Number,
