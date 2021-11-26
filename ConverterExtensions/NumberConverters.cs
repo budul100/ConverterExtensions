@@ -60,7 +60,7 @@ namespace ConverterExtensions
         {
             var result = default(decimal?);
 
-            provider = provider ?? CultureInfo.CurrentCulture;
+            provider = provider ?? CultureInfo.InvariantCulture;
 
             if (!string.IsNullOrWhiteSpace(input))
             {
@@ -85,7 +85,7 @@ namespace ConverterExtensions
         {
             var result = default(double?);
 
-            provider = provider ?? CultureInfo.CurrentCulture;
+            provider = provider ?? CultureInfo.InvariantCulture;
 
             if (!string.IsNullOrWhiteSpace(input))
             {
@@ -110,7 +110,7 @@ namespace ConverterExtensions
         {
             var result = default(int?);
 
-            provider = provider ?? CultureInfo.CurrentCulture;
+            provider = provider ?? CultureInfo.InvariantCulture;
 
             if (!string.IsNullOrWhiteSpace(input))
             {
@@ -135,7 +135,7 @@ namespace ConverterExtensions
         {
             var result = default(long?);
 
-            provider = provider ?? CultureInfo.CurrentCulture;
+            provider = provider ?? CultureInfo.InvariantCulture;
 
             if (!string.IsNullOrWhiteSpace(input))
             {
