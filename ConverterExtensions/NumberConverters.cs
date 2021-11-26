@@ -8,8 +8,8 @@ namespace ConverterExtensions
     {
         #region Private Fields
 
-        private static readonly Regex decimalRegex = new Regex(@"(\d*(\,|\.))*\d+");
-        private static readonly Regex integerRegex = new Regex(@"\d+");
+        private static readonly Regex decimalRegex = new Regex(@"-?(\d*(\,|\.))*\d+");
+        private static readonly Regex integerRegex = new Regex(@"-?\d+");
 
         #endregion Private Fields
 
